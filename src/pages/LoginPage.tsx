@@ -1,18 +1,20 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+type LoginForm = {
+  code: string;
+};
+
 const LoginPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginForm>();
 
   const navigate = useNavigate();
 
-  function login(data) {
-    console.log("Login...");
-    console.log(data);
+  function login(data: LoginForm) {
     fetch("http://localhost:4000/api/auth/login", {
       method: "POST",
       headers: {
