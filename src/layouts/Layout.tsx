@@ -7,7 +7,7 @@ import { Player } from "../types";
 
 const Layout = () => {
   const navigate = useNavigate();
-  const { dispatch } = useGame();
+  const { state, dispatch } = useGame();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/user`, {
@@ -62,14 +62,15 @@ const Layout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div className="flex flex-col h-screen">
-      <Header logoutButton />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-    </div>
-  );
+  if (state.player.id)
+    return (
+      <div className="flex flex-col h-screen">
+        <Header logoutButton />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </div>
+    );
 };
 
 export default Layout;
