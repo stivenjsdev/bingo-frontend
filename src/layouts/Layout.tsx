@@ -25,7 +25,6 @@ const Layout = () => {
         throw new Error("Unauthorized");
       })
       .then((data) => {
-        console.log(data);
         const player: Player = {
           id: data._id,
           name: data.name,
@@ -36,6 +35,7 @@ const Layout = () => {
         dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
         // TODO: change this to environment variable
         const socket = io("http://localhost:4000");
+        dispatch({ type: "SET_SOCKET", payload: { socket } });
 
         socket.on("connect", () => {
           console.log("connected");

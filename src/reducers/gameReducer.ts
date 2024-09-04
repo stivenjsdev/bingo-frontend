@@ -1,3 +1,4 @@
+import { Socket } from "socket.io-client";
 import { Player } from "../types/index";
 
 export type GameActions =
@@ -12,12 +13,17 @@ export type GameActions =
   | {
       type: "SET_DRAWN_BALLS";
       payload: { drawnBalls: number[] };
+    }
+  | {
+      type: "SET_SOCKET";
+      payload: { socket: Socket };
     };
 
 export type GameState = {
   player: Player;
   lastDrawnBall: number;
   drawnBalls: number[];
+  socket: Socket;
 };
 
 export const initialState: GameState = {
@@ -30,6 +36,7 @@ export const initialState: GameState = {
   },
   lastDrawnBall: 0,
   drawnBalls: [],
+  socket: null!,
 };
 
 export const gameReducer = (
@@ -52,6 +59,12 @@ export const gameReducer = (
     return {
       ...state,
       drawnBalls: action.payload.drawnBalls,
+    };
+  }
+  if (action.type === "SET_SOCKET") {
+    return {
+      ...state,
+      socket: action.payload.socket,
     };
   }
 

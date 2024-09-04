@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { useGame } from "../hooks/useGame";
 
 type HeaderProps = {
   logoutButton?: boolean;
 };
 
 const Header = ({ logoutButton = false }: HeaderProps) => {
+  const { state } = useGame();
   const navigate = useNavigate();
   const handleLogout = () => {
-    // Implement logout logic here
     localStorage.removeItem("AUTH_TOKEN");
+    state.socket.disconnect();
     navigate("/auth/login");
   };
 
