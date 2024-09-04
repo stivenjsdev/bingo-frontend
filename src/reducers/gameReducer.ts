@@ -8,11 +8,16 @@ export type GameActions =
   | {
       type: "DRAW_BALL";
       payload: { ball: number };
+    }
+  | {
+      type: "SET_DRAWN_BALLS";
+      payload: { drawnBalls: number[] };
     };
 
 export type GameState = {
   player: Player;
-  drawnBall: number;
+  lastDrawnBall: number;
+  drawnBalls: number[];
 };
 
 export const initialState: GameState = {
@@ -20,9 +25,11 @@ export const initialState: GameState = {
     id: "",
     name: "",
     bingoCard: [],
+    game: "",
     active: false,
   },
-  drawnBall: 0,
+  lastDrawnBall: 0,
+  drawnBalls: [],
 };
 
 export const gameReducer = (
@@ -38,7 +45,13 @@ export const gameReducer = (
   if (action.type === "DRAW_BALL") {
     return {
       ...state,
-      drawnBall: action.payload.ball,
+      lastDrawnBall: action.payload.ball,
+    };
+  }
+  if (action.type === "SET_DRAWN_BALLS") {
+    return {
+      ...state,
+      drawnBalls: action.payload.drawnBalls,
     };
   }
 

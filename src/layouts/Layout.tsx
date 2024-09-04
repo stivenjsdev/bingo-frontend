@@ -27,6 +27,7 @@ const Layout = () => {
         const player: Player = {
           id: data._id,
           name: data.name,
+          game: data.game,
           bingoCard: data.bingoCard,
           active: data.active,
         };
@@ -35,11 +36,17 @@ const Layout = () => {
 
         socket.on("connect", () => {
           console.log("connected");
+          socket.emit("join game", player.game);
         });
 
-        socket.on("ball drawn", (ball) => {
+        socket.on("ball drawn", (ball, drawnNumbers) => {
           console.log(ball);
+          console.log({ drawnNumbers });
           dispatch({ type: "DRAW_BALL", payload: { ball } });
+          dispatch({
+            type: "SET_DRAWN_BALLS",
+            payload: { drawnBalls: drawnNumbers },
+          });
         });
       })
       .catch((error) => {
@@ -49,12 +56,12 @@ const Layout = () => {
   }, []);
 
   return (
-    <>
-      <Header />
-      <main>
+    <div className="flex flex-col h-screen">
+      <Header logoutButton />
+      <main className="flex-1">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 };
 
