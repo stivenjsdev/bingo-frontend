@@ -10,8 +10,7 @@ const Layout = () => {
   const { dispatch } = useGame();
 
   useEffect(() => {
-    // TODO: change this to environment variable
-    fetch("http://localhost:4000/api/auth/user", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -33,8 +32,7 @@ const Layout = () => {
           active: data.active,
         };
         dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
-        // TODO: change this to environment variable
-        const socket = io("http://localhost:4000");
+        const socket = io(import.meta.env.VITE_API_BASE_URL);
         dispatch({ type: "SET_SOCKET", payload: { socket } });
 
         socket.on("connect", () => {
