@@ -8,7 +8,9 @@ import { Player } from "../types";
 const Layout = () => {
   const navigate = useNavigate();
   const { dispatch } = useGame();
+
   useEffect(() => {
+    // TODO: change this to environment variable
     fetch("http://localhost:4000/api/auth/user", {
       method: "GET",
       headers: {
@@ -32,6 +34,7 @@ const Layout = () => {
           active: data.active,
         };
         dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
+        // TODO: change this to environment variable
         const socket = io("http://localhost:4000");
 
         socket.on("connect", () => {
@@ -39,9 +42,14 @@ const Layout = () => {
           socket.emit("join game", player.game);
         });
 
+        socket.on("joined game", (drawnNumbers) => {
+          dispatch({
+            type: "SET_DRAWN_BALLS",
+            payload: { drawnBalls: drawnNumbers },
+          });
+        });
+
         socket.on("ball drawn", (ball, drawnNumbers) => {
-          console.log(ball);
-          console.log({ drawnNumbers });
           dispatch({ type: "DRAW_BALL", payload: { ball } });
           dispatch({
             type: "SET_DRAWN_BALLS",
@@ -53,6 +61,7 @@ const Layout = () => {
         console.error("Error:", error);
         navigate("/auth/login");
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
