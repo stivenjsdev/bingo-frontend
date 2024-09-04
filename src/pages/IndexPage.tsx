@@ -74,6 +74,15 @@ const IndexPage = () => {
         </div>
       </div>
 
+      <div className="w-full max-w-96 p-10">
+        <button
+          className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={() => console.log("click")}
+        >
+          Gritar BINGO!
+        </button>
+      </div>
+
       <div className="w-full bg-gray-100 py-8 flex flex-col justify-center sm:py-12 overflow-hidden">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-500 shadow-lg transform -skew-y-6 sm:skew-y-0 -rotate-6 rounded-3xl"></div>
@@ -84,9 +93,7 @@ const IndexPage = () => {
                   Balotas Extraídas
                 </h1>
                 {state.drawnBalls.length === 0 && (
-                  <p>
-                    Aún no se han extraído balotas.
-                  </p>
+                  <p>Aún no se han extraído balotas.</p>
                 )}
               </div>
               <div className="grid grid-cols-5 gap-3 mb-2">
