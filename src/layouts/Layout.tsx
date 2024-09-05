@@ -1,68 +1,59 @@
+import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";
 import Header from "../components/Header";
 import { useGame } from "../hooks/useGame";
-import { Player } from "../types";
 
 const Layout = () => {
-  const navigate = useNavigate();
-  const { state, dispatch } = useGame();
+  const { dispatch } = useGame();
+  const { data, isError, isLoading } = useAuth();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/user`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error("Unauthorized");
-      })
-      .then((data) => {
-        const player: Player = {
-          id: data._id,
-          name: data.name,
-          game: data.game,
-          bingoCard: data.bingoCard,
-          active: data.active,
-        };
-        dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
-        const socket = io(import.meta.env.VITE_API_BASE_URL);
-        dispatch({ type: "SET_SOCKET", payload: { socket } });
+    if (data) {
+      // save user data to context
+      dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: data } });
 
-        socket.on("connect", () => {
-          console.log("connected");
-          socket.emit("join game", player.game);
-        });
+      // create a socket connection
+      const socket = io(import.meta.env.VITE_API_BASE_URL);
 
-        socket.on("joined game", (drawnNumbers) => {
-          dispatch({
-            type: "SET_DRAWN_BALLS",
-            payload: { drawnBalls: drawnNumbers },
-          });
-        });
+      // save socket connection to context
+      dispatch({ type: "SET_SOCKET", payload: { socket } });
 
-        socket.on("ball drawn", (ball, drawnNumbers) => {
-          dispatch({ type: "DRAW_BALL", payload: { ball } });
-          dispatch({
-            type: "SET_DRAWN_BALLS",
-            payload: { drawnBalls: drawnNumbers },
-          });
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        navigate("/auth/login");
+      // connect to socket
+      // join game room
+      socket.on("connect", () => {
+        console.log("connected");
+        socket.emit("join game", data.game);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  if (state.player.id)
+      // listen for joined game event
+      socket.on("joined game", (drawnNumbers) => {
+        // save drawn numbers to context
+        dispatch({
+          type: "SET_DRAWN_BALLS",
+          payload: { drawnBalls: drawnNumbers },
+        });
+      });
+
+      // listen for ball drawn event
+      socket.on("ball drawn", (ball, drawnNumbers) => {
+        dispatch({ type: "DRAW_BALL", payload: { ball } });
+        dispatch({
+          type: "SET_DRAWN_BALLS",
+          payload: { drawnBalls: drawnNumbers },
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  if (isLoading) return "Cargando...";
+  if (isError) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  if (data)
     return (
       <div className="flex flex-col h-screen">
         <Header logoutButton />

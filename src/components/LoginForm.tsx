@@ -1,49 +1,41 @@
+import { authenticateUser } from "@/api/AuthAPI";
+import toyCar from "@/assets/toy-car.svg";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
-type LoginForm = {
-  code: string;
-};
+import type { PlayerLoginForm } from "../types";
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>();
-
-  const [requestError, setRequestError] = useState("");
+    reset,
+  } = useForm<PlayerLoginForm>();
 
   const navigate = useNavigate();
 
-  function login(data: LoginForm) {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code: data.code }),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error("Not found");
-      })
-      .then((token) => {
-        localStorage.setItem("AUTH_TOKEN", token.token);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setRequestError("Código de jugador incorrecto");
-      });
-  }
+  const [requestError, setRequestError] = useState("");
+
+  const { mutate } = useMutation({
+    mutationFn: authenticateUser,
+    onError: (error) => {
+      console.error("Error:", error);
+      setRequestError("Código de jugador incorrecto");
+    },
+    onSuccess: () => {
+      reset();
+      navigate("/");
+    },
+  });
+
+  const handleLogin = (formData: PlayerLoginForm) => mutate(formData);
 
   return (
     <div className="max-w-md w-full space-y-8">
       <div>
+        <img src={toyCar} className="" alt="Toy Car" />
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Bingo Game Login
         </h2>
@@ -52,7 +44,7 @@ const LoginForm = () => {
         </p>
       </div>
 
-      <form className="mt-8 space-y-6" onSubmit={handleSubmit(login)}>
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleLogin)}>
         <div className="rounded-md shadow-sm -space-y-px">
           {errors.code && (
             <p className="p-1 text-red-500 capitalize text-sm">

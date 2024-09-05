@@ -5,3 +5,7 @@ export type Player = {
   game: string;
   active: boolean;
 };
+
+export type PlayerLoginForm = {
+  code: string;
+};

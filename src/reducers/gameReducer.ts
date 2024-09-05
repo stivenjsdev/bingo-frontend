@@ -17,6 +17,9 @@ export type GameActions =
   | {
       type: "SET_SOCKET";
       payload: { socket: Socket };
+    }
+  | {
+      type: "LOGOUT";
     };
 
 export type GameState = {
@@ -66,6 +69,9 @@ export const gameReducer = (
       ...state,
       socket: action.payload.socket,
     };
+  }
+  if (action.type === "LOGOUT") {
+    return initialState;
   }
 
   return state;

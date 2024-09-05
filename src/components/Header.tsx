@@ -6,11 +6,12 @@ type HeaderProps = {
 };
 
 const Header = ({ logoutButton = false }: HeaderProps) => {
-  const { state } = useGame();
+  const { state, dispatch } = useGame();
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("AUTH_TOKEN");
     state.socket.disconnect();
+    dispatch({ type: "LOGOUT" });
     navigate("/auth/login");
   };
 
