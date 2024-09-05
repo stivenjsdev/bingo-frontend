@@ -44,6 +44,16 @@ const Layout = () => {
           payload: { drawnBalls: drawnNumbers },
         });
       });
+
+      // listen for game restarted event
+      socket.on("game restarted", () => {
+        dispatch({ type: "GAME_RESTARTED" });
+      });
+
+      // listen for game over event
+      socket.on("game over", (playerName) => {
+        console.log("game over", playerName);
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

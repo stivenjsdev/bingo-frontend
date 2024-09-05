@@ -20,6 +20,9 @@ export type GameActions =
     }
   | {
       type: "LOGOUT";
+    }
+  | {
+      type: "GAME_RESTARTED";
     };
 
 export type GameState = {
@@ -31,7 +34,7 @@ export type GameState = {
 
 export const initialState: GameState = {
   player: {
-    id: "",
+    _id: "",
     name: "",
     bingoCard: [],
     game: "",
@@ -72,6 +75,13 @@ export const gameReducer = (
   }
   if (action.type === "LOGOUT") {
     return initialState;
+  }
+  if (action.type === "GAME_RESTARTED") {
+    return {
+      ...state,
+      drawnBalls: [],
+      lastDrawnBall: 0,
+    };
   }
 
   return state;

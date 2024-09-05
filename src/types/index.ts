@@ -1,5 +1,5 @@
 export type Player = {
-  id: string;
+  _id: string;
   name: string;
   bingoCard: number[][];
   game: string;

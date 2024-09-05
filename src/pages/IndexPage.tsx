@@ -20,6 +20,10 @@ const IndexPage = () => {
     setBingoCard(newCard);
   };
 
+  const handleBINGO = () => {
+    state.socket.emit("bingo!", state.player.game, state.player._id);
+  };
+
   useEffect(() => {
     setBingoCard(
       state.player.bingoCard.map((column) =>
@@ -82,7 +86,7 @@ const IndexPage = () => {
       <div className="w-full max-w-96 p-10">
         <button
           className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={() => console.log("click")}
+          onClick={handleBINGO}
         >
           Gritar BINGO!
         </button>
