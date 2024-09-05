@@ -9,3 +9,8 @@ export type Player = {
 export type PlayerLoginForm = {
   code: string;
 };
+
+export type BingoNumber = {
+  value: number;
+  marked: boolean;
+};

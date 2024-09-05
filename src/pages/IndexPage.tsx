@@ -2,11 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { getBingoLetter } from "@/utils/game";
 import { useGame } from "../hooks/useGame";
-
-type BingoNumber = {
-  value: number;
-  marked: boolean;
-};
+import type { BingoNumber } from "../types";
 
 const IndexPage = () => {
   const { state } = useGame();
