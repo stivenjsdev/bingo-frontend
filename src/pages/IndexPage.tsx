@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { getBingoLetter } from "@/utils/game";
 import { useGame } from "../hooks/useGame";
 
 type BingoNumber = {
@@ -11,6 +12,11 @@ const IndexPage = () => {
   const { state } = useGame();
 
   const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
+
+  const letter = useMemo(
+    () => getBingoLetter(state.lastDrawnBall),
+    [state.lastDrawnBall]
+  );
 
   const handleNumberClick = (colIndex: number, rowIndex: number) => {
     const newCard = [...bingoCard];
@@ -28,9 +34,12 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-full flex flex-col gap-4 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
-      <div className="flex items-center justify-center">
-        <div className="w-16 aspect-square flex items-center justify-center bg-white border border-gray-300 rounded-full text-lg font-bold">
-          {state.lastDrawnBall}
+      <div className="flex items-center justify-center drop-shadow-lg">
+        <div className="w-24 aspect-square flex items-center justify-center bg-white border border-gray-300 rounded-full">
+          <div className="w-16 aspect-square flex flex-col items-center justify-center bg-white border-gray-950 border-4 rounded-full text-lg font-bold">
+            <p className="text-sm uppercase">{letter}</p>
+            <p className="text-lg mb-1">{state.lastDrawnBall}</p>
+          </div>
         </div>
       </div>
 
