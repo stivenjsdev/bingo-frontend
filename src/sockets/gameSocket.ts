@@ -58,7 +58,7 @@ export const gameSocket = (
         text: "Una balota ha sido sacada",
         icon: "info",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
       });
     }
   });
