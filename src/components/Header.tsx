@@ -1,3 +1,4 @@
+import bingoLogo from "@/assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../hooks/useGame";
 
@@ -16,26 +17,14 @@ const Header = ({ logoutButton = false }: HeaderProps) => {
   };
 
   return (
-    <header className="h-16 bg-indigo-600 shadow-lg">
+    <header className="max-h-20 bg-indigo-600 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-2 sm:py-4">
           <div className="flex items-center">
             <div className="flex items-center">
-              <svg
-                className="h-8 w-8 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                />
-              </svg>
+              <img className="w-11" src={bingoLogo} alt="" />
               <span className="ml-2 text-white text-xl font-semibold">
-                Bingo Game
+                Bin<span className="text-purple-300">Go</span>!
               </span>
             </div>
           </div>
