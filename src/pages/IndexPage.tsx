@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { getBingoLetter } from "@/utils/game";
+import { getBingoLetter, organizeNumbers } from "@/utils/game";
 import { useGame } from "../hooks/useGame";
 import type { BingoNumber } from "../types";
 
@@ -13,6 +13,8 @@ const IndexPage = () => {
     () => getBingoLetter(state.lastDrawnBall),
     [state.lastDrawnBall]
   );
+
+  const organizedNumbers = useMemo(() => organizeNumbers(), []);
 
   const handleNumberClick = (colIndex: number, rowIndex: number) => {
     const newCard = [...bingoCard];
@@ -34,6 +36,7 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-full flex flex-col gap-4 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
+      {/* Balota actual */}
       <div className="flex items-center justify-center drop-shadow-lg">
         <div className="w-24 aspect-square flex items-center justify-center bg-white border border-gray-300 rounded-full">
           <div className="w-16 aspect-square flex flex-col items-center justify-center bg-white border-gray-950 border-4 rounded-full text-lg font-bold">
@@ -43,6 +46,7 @@ const IndexPage = () => {
         </div>
       </div>
 
+      {/* Cartón de Bingo */}
       <div className="w-full max-w-md mx-auto border border-gray-50 shadow-lg p-4 space-y-3">
         <div>
           <h1 className="text-center">
@@ -83,6 +87,7 @@ const IndexPage = () => {
         </div>
       </div>
 
+      {/* Botón de BINGO */}
       <div className="w-full max-w-96 p-10">
         <button
           className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -92,31 +97,31 @@ const IndexPage = () => {
         </button>
       </div>
 
-      <div className="w-full bg-gray-100 py-8 flex flex-col justify-center sm:py-12 overflow-hidden">
-        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-500 shadow-lg transform -skew-y-6 sm:skew-y-0 -rotate-6 rounded-3xl"></div>
-          <div className="relative px-4 py-8 bg-white shadow-lg rounded-3xl sm:p-20">
-            <div className="max-w-md mx-auto">
-              <div>
-                <h1 className="font-bold text-center text-gray-900 mb-6 capitalize">
-                  Balotas Extraídas
-                </h1>
-                {state.drawnBalls.length === 0 && (
-                  <p>Aún no se han extraído balotas.</p>
-                )}
+      {/* Lista de Balotas Jugadas */}
+      <div className=" w-full max-w-sm mx-auto py-4 px-5 bg-indigo-600 rounded-lg shadow-2xl">
+        <div className="grid grid-cols-5 gap-2 md:gap-4">
+          {["B", "I", "N", "G", "O"].map((letter) => (
+            <div key={letter} className="flex flex-col items-center">
+              <div className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">
+                {letter}
               </div>
-              <div className="grid grid-cols-5 gap-3 mb-2">
-                {state.drawnBalls.map((ball, index) => (
+              <div className="grid grid-rows-5 gap-1 md:gap-2">
+                {organizedNumbers[letter].map((num) => (
                   <div
-                    key={index}
-                    className="w-12 h-12 flex items-center justify-center bg-indigo-600 text-white text-base font-bold rounded-full shadow-lg transition-transform duration-1000 ease-in-out transform hover:scale-110"
+                    key={num}
+                    className={`w-10 h-10 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-lg font-semibold
+                    ${
+                      state.drawnBalls.includes(num)
+                        ? "bg-white text-indigo-900"
+                        : "bg-indigo-800 text-indigo-200"
+                    }`}
                   >
-                    {ball}
+                    {num}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
