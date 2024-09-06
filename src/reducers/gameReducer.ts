@@ -7,12 +7,12 @@ export type GameActions =
       payload: { newPlayer: Player };
     }
   | {
-      type: "DRAW_BALL";
+      type: "TAKE_OUT_BALL";
       payload: { ball: number };
     }
   | {
-      type: "SET_DRAWN_BALLS";
-      payload: { drawnBalls: number[] };
+      type: "SET_CHOSEN_BALLS";
+      payload: { chosenBalls: number[] };
     }
   | {
       type: "SET_SOCKET";
@@ -27,8 +27,8 @@ export type GameActions =
 
 export type GameState = {
   player: Player;
-  lastDrawnBall: number;
-  drawnBalls: number[];
+  lastChosenBall: number;
+  chosenBalls: number[];
   socket: Socket;
 };
 
@@ -40,8 +40,8 @@ export const initialState: GameState = {
     game: "",
     active: false,
   },
-  lastDrawnBall: 0,
-  drawnBalls: [],
+  lastChosenBall: 0,
+  chosenBalls: [],
   socket: null!,
 };
 
@@ -55,16 +55,16 @@ export const gameReducer = (
       player: action.payload.newPlayer,
     };
   }
-  if (action.type === "DRAW_BALL") {
+  if (action.type === "TAKE_OUT_BALL") {
     return {
       ...state,
-      lastDrawnBall: action.payload.ball,
+      lastChosenBall: action.payload.ball,
     };
   }
-  if (action.type === "SET_DRAWN_BALLS") {
+  if (action.type === "SET_CHOSEN_BALLS") {
     return {
       ...state,
-      drawnBalls: action.payload.drawnBalls,
+      chosenBalls: action.payload.chosenBalls,
     };
   }
   if (action.type === "SET_SOCKET") {
@@ -79,8 +79,8 @@ export const gameReducer = (
   if (action.type === "GAME_RESTARTED") {
     return {
       ...state,
-      drawnBalls: [],
-      lastDrawnBall: 0,
+      chosenBalls: [],
+      lastChosenBall: 0,
     };
   }
 

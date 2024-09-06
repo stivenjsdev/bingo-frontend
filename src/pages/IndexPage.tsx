@@ -10,8 +10,8 @@ const IndexPage = () => {
   const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
 
   const letter = useMemo(
-    () => getBingoLetter(state.lastDrawnBall),
-    [state.lastDrawnBall]
+    () => getBingoLetter(state.lastChosenBall),
+    [state.lastChosenBall]
   );
 
   const organizedNumbers = useMemo(() => organizeNumbers(), []);
@@ -41,7 +41,7 @@ const IndexPage = () => {
         <div className="w-24 aspect-square flex items-center justify-center bg-white border border-gray-300 rounded-full">
           <div className="w-16 aspect-square flex flex-col items-center justify-center bg-white border-gray-950 border-4 rounded-full text-lg font-bold">
             <p className="text-sm uppercase">{letter}</p>
-            <p className="text-lg mb-1">{state.lastDrawnBall}</p>
+            <p className="text-lg mb-1">{state.lastChosenBall}</p>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@ const IndexPage = () => {
         </button>
       </div>
 
-      {/* Lista de Balotas Jugadas */}
+      {/* Lista de Balotas Elegidas chosen balls */}
       <div className=" w-full max-w-sm mx-auto py-4 px-5 bg-indigo-600 rounded-lg shadow-2xl">
         <div className="grid grid-cols-5 gap-2 md:gap-4">
           {["B", "I", "N", "G", "O"].map((letter) => (
@@ -111,7 +111,7 @@ const IndexPage = () => {
                     key={num}
                     className={`w-10 h-10 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-lg font-semibold
                     ${
-                      state.drawnBalls.includes(num)
+                      state.chosenBalls.includes(num)
                         ? "bg-white text-indigo-900"
                         : "bg-indigo-800 text-indigo-200"
                     }`}

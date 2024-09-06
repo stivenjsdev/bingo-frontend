@@ -16,20 +16,20 @@ export const gameSocket = (
   });
 
   // listen for joined game event
-  socket.on("joined game", (drawnNumbers) => {
+  socket.on("joined game", (chosenBalls) => {
     // save drawn numbers to context
     dispatch({
-      type: "SET_DRAWN_BALLS",
-      payload: { drawnBalls: drawnNumbers },
+      type: "SET_CHOSEN_BALLS",
+      payload: { chosenBalls: chosenBalls },
     });
   });
 
   // listen for ball drawn event
-  socket.on("ball drawn", (ball, drawnNumbers) => {
-    dispatch({ type: "DRAW_BALL", payload: { ball } });
+  socket.on("ball taken out", (ball, chosenBalls) => {
+    dispatch({ type: "TAKE_OUT_BALL", payload: { ball } });
     dispatch({
-      type: "SET_DRAWN_BALLS",
-      payload: { drawnBalls: drawnNumbers },
+      type: "SET_CHOSEN_BALLS",
+      payload: { chosenBalls: chosenBalls },
     });
   });
 
