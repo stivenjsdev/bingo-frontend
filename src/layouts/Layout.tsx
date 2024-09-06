@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { gameSocket } from "@/sockets/gameSocket";
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -20,40 +21,7 @@ const Layout = () => {
       // save socket connection to context
       dispatch({ type: "SET_SOCKET", payload: { socket } });
 
-      // connect to socket
-      // join game room
-      socket.on("connect", () => {
-        console.log("connected");
-        socket.emit("join game", data.game);
-      });
-
-      // listen for joined game event
-      socket.on("joined game", (drawnNumbers) => {
-        // save drawn numbers to context
-        dispatch({
-          type: "SET_DRAWN_BALLS",
-          payload: { drawnBalls: drawnNumbers },
-        });
-      });
-
-      // listen for ball drawn event
-      socket.on("ball drawn", (ball, drawnNumbers) => {
-        dispatch({ type: "DRAW_BALL", payload: { ball } });
-        dispatch({
-          type: "SET_DRAWN_BALLS",
-          payload: { drawnBalls: drawnNumbers },
-        });
-      });
-
-      // listen for game restarted event
-      socket.on("game restarted", () => {
-        dispatch({ type: "GAME_RESTARTED" });
-      });
-
-      // listen for game over event
-      socket.on("game over", (playerName) => {
-        console.log("game over", playerName);
-      });
+      gameSocket(socket, data, dispatch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

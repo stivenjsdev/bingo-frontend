@@ -17,6 +17,7 @@
       "@/locales/*" : ["locales/*"],
       "@/hooks/*" : ["hooks/*"],
       "@/assets/*" : ["assets/*"],
+      "@/sockets/*" : ["sockets/*"],
     },
 
     /* Bundler mode */
