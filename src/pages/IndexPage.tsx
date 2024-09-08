@@ -104,10 +104,10 @@ const IndexPage = () => {
       </div>
 
       {/* Botón de BINGO */}
-      <div className="w-full max-w-96 p-10">
+      <div className="w-full max-w-md py-3">
         <button
           disabled={!state.game.active}
-          className={`w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${!state.game.active && "opacity-50 cursor-not-allowed"}`}
+          className={`w-full flex justify-center py-4 px-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${!state.game.active && "opacity-50 cursor-not-allowed"}`}
           onClick={handleBINGO}
         >
           ¡Gritar BINGO!
