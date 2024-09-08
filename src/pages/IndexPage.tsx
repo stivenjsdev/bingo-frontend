@@ -41,6 +41,19 @@ const IndexPage = () => {
     );
   }, [state.player.bingoCard]);
 
+  useEffect(() => {
+    if (state.game.chosenNumbers.length === 0) {
+      setBingoCard(
+        state.player.bingoCard.map((column) =>
+          column.map((number) => ({ value: number, marked: false }))
+        )
+      );
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.game.chosenNumbers])
+  
+
   return (
     <div className="min-h-full flex flex-col gap-4 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
       {/* Balota actual */}
