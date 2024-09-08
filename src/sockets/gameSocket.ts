@@ -1,9 +1,9 @@
-import { dateFormatter } from "@/utils/game";
+import { capitalizeWords, dateFormatter } from "@/utils/game";
 import { Dispatch } from "react";
 import { GameActions } from "reducers/gameReducer";
 import { Socket } from "socket.io-client";
 import Swal, { SweetAlertIcon } from "sweetalert2";
-import { Player } from "../types";
+import { Game, Player } from "../types";
 
 export const gameSocket = (
   socket: Socket,
@@ -14,22 +14,22 @@ export const gameSocket = (
   // join game room
   socket.on("connect", () => {
     console.log("connected");
-    socket.emit("join game", player.game);
+    socket.emit("join-game", player.game);
   });
 
   // listen for joined game event
-  socket.on("joined game", (chosenBalls, date) => {
+  socket.on("joined-game", (game: Game) => {
     // save drawn numbers to context
     dispatch({
-      type: "SET_CHOSEN_BALLS",
-      payload: { chosenBalls: chosenBalls },
+      type: "SET_GAME",
+      payload: { game: game },
     });
 
-    const hasGameStarted = chosenBalls.length > 0;
+    const hasGameStarted = game.chosenNumbers.length > 0;
     if (!hasGameStarted) {
       Swal.fire({
         title: "¡Bienvenido al Juego!",
-        text: `El juego comenzará el ${dateFormatter(new Date(date))}`,
+        text: `El juego comenzará el ${dateFormatter(new Date(game.date))}`,
         icon: "info",
         confirmButtonText: "vale",
       });
@@ -37,13 +37,17 @@ export const gameSocket = (
   });
 
   // listen for ball drawn event
-  socket.on("ball taken out", (ball, chosenBalls) => {
+  socket.on("ball-takenOut", (ball: number, game: Game, message: string) => {
+    if (!game || !ball) {
+      console.log(message);
+      return;
+    }
     dispatch({ type: "TAKE_OUT_BALL", payload: { ball } });
     dispatch({
-      type: "SET_CHOSEN_BALLS",
-      payload: { chosenBalls: chosenBalls },
+      type: "SET_GAME",
+      payload: { game: game },
     });
-    const hasGameStarted = chosenBalls.length === 1;
+    const hasGameStarted = game.chosenNumbers.length === 1;
     if (hasGameStarted) {
       Swal.fire({
         title: "¡Comenzamos!",
@@ -64,8 +68,8 @@ export const gameSocket = (
   });
 
   // listen for game restarted event
-  socket.on("game restarted", () => {
-    dispatch({ type: "GAME_RESTARTED" });
+  socket.on("game-restarted", (game: Game) => {
+    dispatch({ type: "GAME_RESTARTED", payload: { game } });
     Swal.fire({
       title: "Juego Reiniciado!",
       text: "El juego comenzará de nuevo",
@@ -75,19 +79,11 @@ export const gameSocket = (
   });
 
   // listen for game over event
-  socket.on("game over", (playerName: string) => {
-    console.log("game over", playerName);
-    function capitalizeWords(str: string) {
-      return str
-        .split(" ")
-        .reduce((acc, word) => {
-          return acc + " " + word.charAt(0).toUpperCase() + word.slice(1);
-        }, "")
-        .trim();
-    }
+  socket.on("game-over", (game: Game) => {
+    console.log("game-over", game?.winner?.name);
     Swal.fire({
       title: "¡BINGO!",
-      text: `${capitalizeWords(playerName)} ha ganado el juego! 🥳`,
+      text: `${game?.winner?.name ? capitalizeWords(game?.winner?.name): "Anónimo"} ha ganado el juego! 🥳`,
       icon: "success",
       confirmButtonText: "Wow!",
     });

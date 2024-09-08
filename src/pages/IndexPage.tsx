@@ -127,7 +127,7 @@ const IndexPage = () => {
                     key={num}
                     className={`w-10 h-10 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-lg font-semibold
                     ${
-                      state.chosenBalls.includes(num)
+                      state.game.chosenNumbers.includes(num)
                         ? "bg-white text-indigo-900"
                         : "bg-indigo-800 text-indigo-200"
                     }`}

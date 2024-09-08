@@ -1,5 +1,5 @@
 import { Socket } from "socket.io-client";
-import { Player } from "../types/index";
+import type { Game, Player } from "../types/index";
 
 export type GameActions =
   | {
@@ -11,8 +11,8 @@ export type GameActions =
       payload: { ball: number };
     }
   | {
-      type: "SET_CHOSEN_BALLS";
-      payload: { chosenBalls: number[] };
+      type: "SET_GAME";
+      payload: { game: Game };
     }
   | {
       type: "SET_SOCKET";
@@ -23,12 +23,13 @@ export type GameActions =
     }
   | {
       type: "GAME_RESTARTED";
+      payload: { game: Game };
     };
 
 export type GameState = {
   player: Player;
   lastChosenBall: number;
-  chosenBalls: number[];
+  game: Game;
   socket: Socket;
 };
 
@@ -37,11 +38,23 @@ export const initialState: GameState = {
     _id: "",
     name: "",
     bingoCard: [],
-    game: "",
+    game: "", // sacamos la info del game en su propio estado
     active: false,
   },
   lastChosenBall: 0,
-  chosenBalls: [],
+  game: {
+    _id: "",
+    gameName: "",
+    date: new Date(),
+    players: [],
+    unsortedNumbers: [],
+    chosenNumbers: [],
+    userAdmin: "",
+    active: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    winner: null,
+  },
   socket: null!,
 };
 
@@ -61,10 +74,10 @@ export const gameReducer = (
       lastChosenBall: action.payload.ball,
     };
   }
-  if (action.type === "SET_CHOSEN_BALLS") {
+  if (action.type === "SET_GAME") {
     return {
       ...state,
-      chosenBalls: action.payload.chosenBalls,
+      game: action.payload.game,
     };
   }
   if (action.type === "SET_SOCKET") {
@@ -79,7 +92,7 @@ export const gameReducer = (
   if (action.type === "GAME_RESTARTED") {
     return {
       ...state,
-      chosenBalls: [],
+      game: action.payload.game,
       lastChosenBall: 0,
     };
   }
