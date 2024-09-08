@@ -1,10 +1,10 @@
 import { authenticateUser } from "@/api/AuthAPI";
 import toyCar from "@/assets/toy-car.svg";
+import type { PlayerLoginForm } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import type { PlayerLoginForm } from "../types";
 
 const LoginForm = () => {
   const {

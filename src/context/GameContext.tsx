@@ -1,10 +1,10 @@
-import { createContext, Dispatch, ReactNode, useReducer } from "react";
 import {
   GameActions,
   gameReducer,
   GameState,
   initialState,
-} from "../reducers/gameReducer";
+} from "@/reducers/gameReducer";
+import { createContext, Dispatch, ReactNode, useReducer } from "react";
 
 type GameContextProps = {
   state: GameState;

@@ -1,6 +1,6 @@
 import bingoLogo from "@/assets/logo.svg";
+import { useGame } from "@/hooks/useGame";
 import { useNavigate } from "react-router-dom";
-import { useGame } from "../hooks/useGame";
 
 type HeaderProps = {
   logoutButton?: boolean;

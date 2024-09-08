@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 // types
-import { Player, PlayerLoginForm } from "../types";
+import { Player, PlayerLoginForm } from "@/types";
 
 export async function getUser() {
   try {

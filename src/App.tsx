@@ -6,7 +6,7 @@ import viteLogo from "/vite.svg";
 const socket = io("http://localhost:4000");
 
 function App() {
-  const [message, setMessage] = useState("init");
+  const [message] = useState("init");
   const [ballDrawn, setBallDrawn] = useState(0);
 
   useEffect(() => {

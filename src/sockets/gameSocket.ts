@@ -1,9 +1,9 @@
+import { GameActions } from "@/reducers/gameReducer";
+import { Game, Player } from "@/types";
 import { capitalizeWords, dateFormatter } from "@/utils/game";
 import { Dispatch } from "react";
-import { GameActions } from "reducers/gameReducer";
 import { Socket } from "socket.io-client";
 import Swal, { SweetAlertIcon } from "sweetalert2";
-import { Game, Player } from "../types";
 
 export const gameSocket = (
   socket: Socket,
