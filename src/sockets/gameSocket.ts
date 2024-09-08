@@ -57,13 +57,13 @@ export const gameSocket = (
         timer: 1800,
       });
     } else {
-      Swal.fire({
+      /*Swal.fire({
         title: "Balota!",
         text: "Una balota ha sido sacada",
         icon: "info",
         showConfirmButton: false,
         timer: 1000,
-      });
+      });*/
     }
   });
 
