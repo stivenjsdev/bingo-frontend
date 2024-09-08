@@ -81,6 +81,7 @@ export const gameSocket = (
   // listen for game over event
   socket.on("game-over", (game: Game) => {
     console.log("game-over", game?.winner?.name);
+    dispatch({ type: "SET_GAME", payload: { game } });
     Swal.fire({
       title: "¡BINGO!",
       text: `${game?.winner?.name ? capitalizeWords(game?.winner?.name): "Anónimo"} ha ganado el juego! 🥳`,
