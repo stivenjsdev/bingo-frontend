@@ -16,6 +16,15 @@ import b9 from "@/assets/audio/B9.mp3";
 import i16 from "@/assets/audio/I16.mp3";
 import i17 from "@/assets/audio/I17.mp3";
 import i18 from "@/assets/audio/I18.mp3";
+import i19 from "@/assets/audio/I19.mp3";
+import i20 from "@/assets/audio/I20.mp3";
+import i21 from "@/assets/audio/I21.mp3";
+import i22 from "@/assets/audio/I22.mp3";
+import i23 from "@/assets/audio/I23.mp3";
+import i24 from "@/assets/audio/I24.mp3";
+import i25 from "@/assets/audio/I25.mp3";
+import i26 from "@/assets/audio/I26.mp3";
+import i27 from "@/assets/audio/I27.mp3";
 import bingoAudio from "@/assets/audio/bingo.mp3";
 import { GameActions } from "@/reducers/gameReducer";
 import { Game, Player } from "@/types";
@@ -104,10 +113,17 @@ export const gameSocket = (
       16: () => new Audio(i16).play(),
       17: () => new Audio(i17).play(),
       18: () => new Audio(i18).play(),
+      19: () => new Audio(i19).play(),
+      20: () => new Audio(i20).play(),
+      21: () => new Audio(i21).play(),
+      22: () => new Audio(i22).play(),
+      23: () => new Audio(i23).play(),
+      24: () => new Audio(i24).play(),
+      25: () => new Audio(i25).play(),
+      26: () => new Audio(i26).play(),
+      27: () => new Audio(i27).play(),
     };
-    if (audios[ball]) {
-      audios[ball]();
-    }
+    if (audios[ball]) audios[ball]();
     // notice: los navegadores bloquean los audios automáticos si el usuario no ha interactuado con la página al menos una vez, mientras que el usuario haya tenido una interacción previa con la página, los audios se reproducirán automáticamente.
   });
 
