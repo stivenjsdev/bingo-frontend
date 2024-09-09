@@ -18,6 +18,7 @@ function AppRouter() {
         </Route>
 
         <Route element={<AuthLayout />}>
+          <Route path="/auth/login/:id" element={<LoginPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
         </Route>
 

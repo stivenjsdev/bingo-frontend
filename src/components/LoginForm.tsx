@@ -4,15 +4,20 @@ import type { PlayerLoginForm } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LoginForm = () => {
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<PlayerLoginForm>();
+  } = useForm<PlayerLoginForm>({
+    defaultValues: {
+      code: id,
+    },
+  });
 
   const navigate = useNavigate();
 
