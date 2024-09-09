@@ -1,4 +1,3 @@
-import bingomp3 from '@/assets/Bingo.mp3';
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
 import { getBingoLetter, organizeNumbers } from "@/utils/game";
@@ -24,7 +23,6 @@ const IndexPage = () => {
   };
 
   const handleBINGO = () => {
-    new Audio(bingomp3).play();
     Swal.fire({
       title: "¡Has gritado BINGO!",
       text: "Espera a que el anfitrión verifique tu cartón",
