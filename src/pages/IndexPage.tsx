@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-
+import bingomp3 from '@/assets/Bingo.mp3';
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
 import { getBingoLetter, organizeNumbers } from "@/utils/game";
+import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 
 const IndexPage = () => {
@@ -24,6 +24,7 @@ const IndexPage = () => {
   };
 
   const handleBINGO = () => {
+    new Audio(bingomp3).play();
     Swal.fire({
       title: "¡Has gritado BINGO!",
       text: "Espera a que el anfitrión verifique tu cartón",
@@ -50,9 +51,8 @@ const IndexPage = () => {
       );
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.game.chosenNumbers])
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.game.chosenNumbers]);
 
   return (
     <div className="min-h-full flex flex-col gap-4 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
@@ -120,7 +120,9 @@ const IndexPage = () => {
       <div className="w-full max-w-md py-3">
         <button
           disabled={!state.game.active}
-          className={`w-full flex justify-center py-4 px-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${!state.game.active && "opacity-50 cursor-not-allowed"}`}
+          className={`w-full flex justify-center py-4 px-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+            !state.game.active && "opacity-50 cursor-not-allowed"
+          }`}
           onClick={handleBINGO}
         >
           ¡Gritar BINGO!
