@@ -99,6 +99,19 @@ export const gameSocket = (
     });
   });
 
+  // listen for card changed event
+  socket.on("card-changed", (game: Game, player: Player) => {
+    if (!game || !player) return;
+    dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
+    dispatch({ type: "SET_GAME", payload: { game } });
+    Swal.fire({
+      title: "Cartón Cambiado",
+      text: "Su Cartón ha sido cambiado por el anfitrión",
+      icon: "success",
+      confirmButtonText: "Gracias!",
+    });
+  });
+
   // listen for a message from the host
   socket.on("message", (message: string, icon: SweetAlertIcon) => {
     Swal.fire({
