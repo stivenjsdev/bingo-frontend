@@ -56,8 +56,14 @@ const IndexPage = () => {
       {state.game.winner && <GameStatus />}
 
       {/* Balota actual */}
-      <Ball number={state.lastChosenBall} />
-      
+      <Ball
+        number={
+          state.lastChosenBall
+            ? state.lastChosenBall
+            : state.game.chosenNumbers[state.game.chosenNumbers.length - 1]
+        }
+      />
+
       {/* Ultimas Balotas jugadas */}
       <BingoTube />
 
