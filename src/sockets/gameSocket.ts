@@ -100,16 +100,18 @@ export const gameSocket = (
   });
 
   // listen for card changed event
-  socket.on("card-changed", (game: Game, player: Player) => {
+  socket.on("card-changed", (game: Game, newPlayer: Player) => {
     if (!game || !player) return;
-    dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: player } });
-    dispatch({ type: "SET_GAME", payload: { game } });
-    Swal.fire({
-      title: "Cartón Cambiado",
-      text: "Su Cartón ha sido cambiado por el anfitrión",
-      icon: "success",
-      confirmButtonText: "Gracias!",
-    });
+    if (newPlayer._id === player._id) {
+      dispatch({ type: "SAVE_PLAYER", payload: { newPlayer } });
+      dispatch({ type: "SET_GAME", payload: { game } });
+      Swal.fire({
+        title: "Cartón Cambiado",
+        text: "Su Cartón ha sido cambiado por el anfitrión",
+        icon: "success",
+        confirmButtonText: "Gracias!",
+      });
+    }
   });
 
   // listen for a message from the host
