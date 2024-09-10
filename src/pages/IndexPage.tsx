@@ -1,6 +1,8 @@
+import Ball from "@/components/Ball";
+import BingoTube from "@/components/BingoTube";
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
-import { getBingoLetter, organizeNumbers } from "@/utils/game";
+import { organizeNumbers } from "@/utils/game";
 import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -8,11 +10,6 @@ const IndexPage = () => {
   const { state } = useGame();
 
   const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
-
-  const letter = useMemo(
-    () => getBingoLetter(state.lastChosenBall),
-    [state.lastChosenBall]
-  );
 
   const organizedNumbers = useMemo(() => organizeNumbers(), []);
 
@@ -53,25 +50,12 @@ const IndexPage = () => {
   }, [state.game.chosenNumbers]);
 
   return (
-    <div className="min-h-full flex flex-col gap-4 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-full flex flex-col gap-3 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
       {/* Balota actual */}
-      <div
-        key={state.lastChosenBall}
-        className="flex items-center justify-center drop-shadow-lg animate-ball"
-        aria-label="polite"
-      >
-        <div className="w-24 aspect-square flex items-center justify-center bg-white border border-gray-300 rounded-full">
-          <div className="w-16 aspect-square flex flex-col items-center justify-center bg-white border-gray-950 border-4 rounded-full text-lg font-bold">
-            <p className="text-sm uppercase">{letter}</p>
-            <p
-              className="text-lg mb-1"
-              aria-label={`Bingo number ${state.lastChosenBall}`}
-            >
-              {state.lastChosenBall}
-            </p>
-          </div>
-        </div>
-      </div>
+      <Ball number={state.lastChosenBall} />
+      
+      {/* Ultimas Balotas jugadas */}
+      <BingoTube />
 
       {/* Cartón de Bingo */}
       <div className="w-full max-w-md mx-auto border border-gray-50 shadow-lg p-4 space-y-3">
