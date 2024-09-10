@@ -12,7 +12,7 @@ export default function BingoTube() {
       {/* <h2 className="text-base text-center text-gray-800">
         Ultimas <span className="font-bold">Balotas</span> Jugadas
       </h2> */}
-      <div className="relative bg-gray-300 rounded-3xl p-1 overflow-hidden shadow-lg">
+      <div className="relative bg-gray-300 rounded-3xl p-1 overflow-hidden shadow-lg h-20">
         {/* Tubo exterior */}
         <div className="absolute inset-0 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 rounded-3xl"></div>
 
@@ -20,9 +20,9 @@ export default function BingoTube() {
         <div className="absolute top-0 left-1/4 right-1/4 h-1/2 bg-gradient-to-b from-white via-transparent to-transparent opacity-30 rounded-t-full"></div>
 
         {/* Contenedor interior del tubo */}
-        <div className="relative bg-gradient-to-b from-gray-200 to-gray-300 rounded-3xl overflow-hidden">
+        <div className="relative bg-gradient-to-b from-gray-200 to-gray-300 rounded-3xl overflow-hidden h-16 my-1">
           {/* Efecto de profundidad */}
-          <div className="absolute inset-2 bg-gradient-to-b from-transparent via-gray-400 to-gray-500 rounded-3xl opacity-20 h-9"></div>
+          <div className="absolute inset-2 bg-gradient-to-b from-transparent via-gray-400 to-gray-500 rounded-3xl opacity-20 h-12 my-1"></div>
 
           {/* Contenedor de balotas */}
           <div className="relative flex flex-row items-center justify-center gap-2 py-1">
