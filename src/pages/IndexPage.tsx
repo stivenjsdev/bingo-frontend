@@ -1,5 +1,6 @@
 import Ball from "@/components/Ball";
 import BingoTube from "@/components/BingoTube";
+import GameStatus from "@/components/GameStatus";
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
 import { organizeNumbers } from "@/utils/game";
@@ -51,6 +52,9 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-full flex flex-col gap-3 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
+      {/* Game State */}
+      {state.game.winner && <GameStatus />}
+
       {/* Balota actual */}
       <Ball number={state.lastChosenBall} />
       
