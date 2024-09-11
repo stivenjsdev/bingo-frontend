@@ -1,8 +1,8 @@
 import { getUser } from "@/api/AuthAPI";
 import { gameSocket } from "@/sockets/gameSocket";
-import { disconnectSocket, initSocket } from "@/sockets/socket";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { io } from "socket.io-client";
 import { useGame } from "./useGame";
 
 export const usePlayer = () => {
@@ -22,10 +22,9 @@ export const usePlayer = () => {
 
   useEffect(() => {
     if (data) {
-      console.log("me ejecute", data);
       if (socket === null) {
         // create a socket connection
-        const socket = initSocket();
+        const socket = io(import.meta.env.VITE_API_BASE_URL);
         gameSocket(socket, data, dispatch);
 
         // save socket connection to context
@@ -35,7 +34,7 @@ export const usePlayer = () => {
       dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: data } });
 
       return () => {
-        disconnectSocket();
+        socket?.disconnect();
         dispatch({ type: "SET_SOCKET", payload: { socket: null } });
       };
     }

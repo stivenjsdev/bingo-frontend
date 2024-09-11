@@ -1,6 +1,5 @@
 import bingoLogo from "@/assets/logo.svg";
 import { useGame } from "@/hooks/useGame";
-import { disconnectSocket } from "@/sockets/socket";
 import { useNavigate } from "react-router-dom";
 
 type HeaderProps = {
@@ -8,12 +7,15 @@ type HeaderProps = {
 };
 
 const Header = ({ logoutButton = false }: HeaderProps) => {
-  const { dispatch } = useGame();
+  const {
+    state: { socket },
+    dispatch,
+  } = useGame();
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("AUTH_TOKEN");
+    socket?.disconnect();
     dispatch({ type: "LOGOUT" });
-    disconnectSocket(); // todo: delete this change to set socket state to null
     navigate("/auth/login");
   };
 
