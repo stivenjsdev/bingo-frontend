@@ -33,6 +33,11 @@ export const usePlayer = () => {
       // save user data to context
       dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: data } });
 
+      // save game data to context
+      if (data.game) {
+        dispatch({ type: "SET_GAME", payload: { game: data.game } });
+      }
+
       return () => {
         socket?.disconnect();
         dispatch({ type: "SET_SOCKET", payload: { socket: null } });
