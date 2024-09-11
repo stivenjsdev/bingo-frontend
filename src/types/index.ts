@@ -2,8 +2,10 @@ export type Player = {
   _id: string;
   name: string;
   bingoCard: number[][];
-  game: string;
+  game: Game | null;
   active: boolean;
+  online: boolean;
+  socketId: string | null;
 };
 
 export type Game = {

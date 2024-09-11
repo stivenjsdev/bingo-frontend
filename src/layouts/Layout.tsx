@@ -1,30 +1,9 @@
 import Header from "@/components/Header";
-import { useAuth } from "@/hooks/useAuth";
-import { useGame } from "@/hooks/useGame";
-import { gameSocket } from "@/sockets/gameSocket";
-import { useEffect } from "react";
+import { usePlayer } from "@/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
-import { io } from "socket.io-client";
 
 const Layout = () => {
-  const { dispatch } = useGame();
-  const { data, isError, isLoading } = useAuth();
-
-  useEffect(() => {
-    if (data) {
-      // save user data to context
-      dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: data } });
-
-      // create a socket connection
-      const socket = io(import.meta.env.VITE_API_BASE_URL);
-
-      // save socket connection to context
-      dispatch({ type: "SET_SOCKET", payload: { socket } });
-
-      gameSocket(socket, data, dispatch);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  const { data, isError, isLoading } = usePlayer();
 
   if (isLoading) return "Cargando...";
   if (isError) {

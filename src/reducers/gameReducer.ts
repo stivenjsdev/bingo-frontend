@@ -16,7 +16,7 @@ export type GameActions =
     }
   | {
       type: "SET_SOCKET";
-      payload: { socket: Socket };
+      payload: { socket: Socket | null };
     }
   | {
       type: "LOGOUT";
@@ -30,7 +30,7 @@ export type GameState = {
   player: Player;
   lastChosenBall: number;
   game: Game;
-  socket: Socket;
+  socket: Socket | null;
 };
 
 export const initialState: GameState = {
@@ -38,8 +38,10 @@ export const initialState: GameState = {
     _id: "",
     name: "",
     bingoCard: [],
-    game: "", // sacamos la info del game en su propio estado
+    game: null, // sacamos la info del game en su propio estado
     active: false,
+    online: false,
+    socketId: null,
   },
   lastChosenBall: 0,
   game: {
@@ -55,7 +57,7 @@ export const initialState: GameState = {
     updatedAt: new Date(),
     winner: null,
   },
-  socket: null!,
+  socket: null,
 };
 
 export const gameReducer = (

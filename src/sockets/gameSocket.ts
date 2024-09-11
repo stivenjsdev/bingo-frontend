@@ -16,29 +16,25 @@ export const gameSocket = (
   // join game room
   socket.on("connect", () => {
     console.log("connected");
-    socket.emit("join-game", player.game);
+    // socket.emit("join-game", gameId, playerId);
+    socket.emit("join-game", player.game?._id, player._id);
   });
 
   // listen for joined game event
-  socket.on("joined-game", (game: Game) => {
-    // save drawn numbers to context
-    dispatch({
-      type: "SET_GAME",
-      payload: { game: game },
-    });
-
-    const hasGameStarted = game.chosenNumbers.length > 0;
+  socket.on("joined-game", () => {
+    if (!player.game) return;
+    const hasGameStarted = player.game.chosenNumbers.length > 0;
     if (!hasGameStarted) {
       Swal.fire({
         title: "¡Bienvenido al Juego!",
-        text: `El juego comenzará el ${dateFormatter(new Date(game.date))}`,
+        text: `El juego comenzará el ${dateFormatter(new Date(player.game.date))}`,
         icon: "info",
         confirmButtonText: "vale",
       });
     }
   });
 
-  // listen for ball drawn event
+  // listen for ball taken out event
   socket.on("ball-takenOut", (ball: number, game: Game, message: string) => {
     if (!game || !ball) {
       console.log(message);

@@ -27,7 +27,7 @@ const IndexPage = () => {
       icon: "info",
       confirmButtonText: "vale",
     });
-    state.socket.emit("bingo!", state.player.game, state.player._id);
+    state.socket?.emit("bingo!", state.player.game?._id, state.player._id);
   };
 
   useEffect(() => {

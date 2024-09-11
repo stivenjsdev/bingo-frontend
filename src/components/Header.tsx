@@ -11,7 +11,7 @@ const Header = ({ logoutButton = false }: HeaderProps) => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("AUTH_TOKEN");
-    state.socket.disconnect();
+    state.socket?.disconnect();
     dispatch({ type: "LOGOUT" });
     navigate("/auth/login");
   };
