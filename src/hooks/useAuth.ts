@@ -1,35 +1,41 @@
 import { getUser } from "@/api/AuthAPI";
 import { gameSocket } from "@/sockets/gameSocket";
+import { disconnectSocket, initSocket } from "@/sockets/socket";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
 import { useGame } from "./useGame";
 
 export const usePlayer = () => {
-  const { dispatch } = useGame();
+  const {
+    state: { socket },
+    dispatch,
+  } = useGame();
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["player"],
     queryFn: getUser,
     retry: 1,
     refetchOnWindowFocus: false,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   useEffect(() => {
     if (data) {
-      // create a socket connection
-      // por alguna razón esto se ejecuta dos veces
-      const socket = io(import.meta.env.VITE_API_BASE_URL); // probar ahora subirlo antes del if data
-      gameSocket(socket, data, dispatch);
+      console.log("me ejecute", data);
+      if (socket === null) {
+        // create a socket connection
+        const socket = initSocket();
+        gameSocket(socket, data, dispatch);
 
-      // save socket connection to context
-      dispatch({ type: "SET_SOCKET", payload: { socket } });
-
+        // save socket connection to context
+        dispatch({ type: "SET_SOCKET", payload: { socket } });
+      }
       // save user data to context
       dispatch({ type: "SAVE_PLAYER", payload: { newPlayer: data } });
 
       return () => {
-        socket.disconnect();
+        disconnectSocket();
         dispatch({ type: "SET_SOCKET", payload: { socket: null } });
       };
     }
