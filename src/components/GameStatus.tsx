@@ -14,7 +14,7 @@ const GameStatus = () => {
       <span className="flex gap-1 items-center text-sm">
         <img src={trophy} alt="key icon" className="w-4 h-4" />
         Ganador:
-        <span>{winner ? capitalizeWords(winner.name) : "N/A"}</span>
+        <span>{winner && winner.name ? capitalizeWords(winner.name) : "N/A"}</span>
       </span>
     </div>
   );
