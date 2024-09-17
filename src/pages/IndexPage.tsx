@@ -72,14 +72,14 @@ const IndexPage = () => {
         <div>
           <h1 className="text-center">
             Cartón de Bingo de{" "}
-            <span className="font-bold capitalize">{state.player.name}</span>
+            <span className="font-bold capitalize font-oswald">{state.player.name}</span>
           </h1>
         </div>
 
         <div className="grid grid-cols-5 gap-2">
           {["B", "I", "N", "G", "O"].map((letter, colIndex) => (
             <div key={letter} className="space-y-2">
-              <div className="flex items-center justify-center bg-indigo-600 text-white font-bold p-4 rounded-t-md text-xl">
+              <div className="flex items-center justify-center bg-indigo-600 text-white font-bold font-oswald p-4 rounded-t-md text-xl">
                 {letter}
               </div>
               {bingoCard[colIndex]?.map((number, rowIndex) => (
@@ -112,7 +112,7 @@ const IndexPage = () => {
       <div className="w-full max-w-md py-3">
         <button
           disabled={!state.game.active}
-          className={`w-full flex justify-center py-4 px-4 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+          className={`w-full flex justify-center py-4 px-4 border border-transparent text-base font-medium font-oswald rounded-md text-white bg-gradient-to-r from-indigo-700 to-purple-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
             !state.game.active && "opacity-50 cursor-not-allowed"
           }`}
           onClick={handleBINGO}
@@ -126,7 +126,7 @@ const IndexPage = () => {
         <div className="grid grid-cols-5 gap-2 md:gap-4">
           {["B", "I", "N", "G", "O"].map((letter) => (
             <div key={letter} className="flex flex-col items-center">
-              <div className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">
+              <div className="text-2xl md:text-4xl font-bold font-oswald text-white mb-2 md:mb-4">
                 {letter}
               </div>
               <div className="grid grid-rows-5 gap-1 md:gap-2">

@@ -26,7 +26,7 @@ const Header = ({ logoutButton = false }: HeaderProps) => {
           <div className="flex items-center">
             <div className="flex items-center">
               <img className="w-11" src={bingoLogo} alt="" />
-              <span className="ml-2 text-white text-xl font-semibold">
+              <span className="ml-2 text-white text-3xl font-normal font-protestGuerrilla">
                 Bin<span className="text-purple-300">Go</span>!
               </span>
             </div>
