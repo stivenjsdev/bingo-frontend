@@ -19,6 +19,10 @@ export default {
         oswald: ["Oswald", "sans-serif"],
         robotoCondensed: ["Roboto Condensed", "sans-serif"],
       },
+      fontSize: {
+        "2xs": ".625rem", // 10px
+        "3xs": ".5rem", // 8px
+      },
     },
   },
   plugins: [],

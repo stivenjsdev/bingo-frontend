@@ -51,7 +51,7 @@ const IndexPage = () => {
   }, [state.game.chosenNumbers]);
 
   return (
-    <div className="min-h-full flex flex-col gap-3 items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-full flex flex-col items-center justify-center bg-gray-100 px-4 pt-1 sm:pt-2 pb-4">
       {/* Game State */}
       {state.game.winner && <GameStatus />}
 
@@ -62,6 +62,7 @@ const IndexPage = () => {
             ? state.lastChosenBall
             : state.game.chosenNumbers[state.game.chosenNumbers.length - 1]
         }
+        className="mb-1"
       />
 
       {/* Ultimas Balotas jugadas */}
