@@ -23,7 +23,6 @@ export type GameActions =
     }
   | {
       type: "GAME_RESTARTED";
-      payload: { game: Game };
     };
 
 export type GameState = {
@@ -94,7 +93,6 @@ export const gameReducer = (
   if (action.type === "GAME_RESTARTED") {
     return {
       ...state,
-      game: action.payload.game,
       lastChosenBall: 0,
     };
   }
