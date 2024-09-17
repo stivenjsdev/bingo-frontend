@@ -53,27 +53,12 @@ export const gameSocket = (
   socket.on("gameRestarted", () => {
     new Audio(resetAudio).play();
     dispatch({ type: "GAME_RESTARTED" });
-    // Swal.fire({
-    //   title: "Juego Reiniciado!",
-    //   text: "El juego comenzará de nuevo",
-    //   icon: "warning",
-    //   confirmButtonText: "Ok",
-    // });
   });
 
   // listen for game over event
   socket.on("gameOver", (game: Game) => {
     new Audio(bingoAudio).play();
     console.log("gameOver winner:", game?.winner?.name);
-    // dispatch({ type: "SET_GAME", payload: { game } });
-    // Swal.fire({
-    //   title: "¡BINGO!",
-    //   text: `${
-    //     game?.winner?.name ? capitalizeWords(game?.winner?.name) : "Anónimo"
-    //   } ha ganado el juego! 🥳`,
-    //   icon: "success",
-    //   confirmButtonText: "Wow!",
-    // });
   });
 
   // listen for card changed event
