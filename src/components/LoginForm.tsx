@@ -1,5 +1,5 @@
 import { authenticateUser } from "@/api/AuthAPI";
-import toyCar from "@/assets/toy-car.svg";
+import gaming from "@/assets/gaming.svg";
 import type { PlayerLoginForm } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -40,7 +40,7 @@ const LoginForm = () => {
   return (
     <div className="max-w-md w-full space-y-8">
       <div>
-        <img src={toyCar} className="" alt="Toy Car" />
+        <img src={gaming} className="" alt="Toy Car" />
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Bingo Game Login
         </h2>
