@@ -22,19 +22,15 @@ export const gameSocket = (
 
   // listen for joined game event
   socket.on("joinedGame", () => {
-    // todo: change this, and always the player charge the game show the welcome message
     if (!player.game) return;
-    const hasGameStarted = player.game.chosenNumbers.length > 0;
-    if (!hasGameStarted) {
-      Swal.fire({
-        title: "¡Bienvenido al Juego!",
-        text: `El juego comenzará el ${dateFormatter(
-          new Date(player.game.date)
-        )}`,
-        icon: "info",
-        confirmButtonText: "vale",
-      });
-    }
+    Swal.fire({
+      title: "¡Bienvenido al Juego!",
+      text: `El juego comenzará el ${dateFormatter(
+        new Date(player.game.date)
+      )}`,
+      icon: "info",
+      confirmButtonText: "vale",
+    });
   });
 
   // listen for ball taken out event
