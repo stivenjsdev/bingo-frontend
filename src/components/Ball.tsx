@@ -7,7 +7,7 @@ type BallProps = {
   className?: string;
 };
 
-const Ball = ({ number, size = "normal", ...properties }: BallProps) => {
+const Ball = ({ number, size = "normal", className, ...properties }: BallProps) => {
   const outside = size === "small" ? "w-16" : "w-24";
   const inside = size === "small" ? "w-11 border-2" : "w-16 border-4";
   const letterSize = size === "small" ? "text-2xs" : "text-sm";
@@ -16,7 +16,7 @@ const Ball = ({ number, size = "normal", ...properties }: BallProps) => {
   return (
     <div
       key={number}
-      className={`flex items-center justify-center drop-shadow-lg ${size !==  "small" && "animate-ball"}`}
+      className={`${className} flex items-center justify-center drop-shadow-lg ${size !==  "small" && "animate-ball"}`}
       aria-label="polite"
       {...properties}
     >
