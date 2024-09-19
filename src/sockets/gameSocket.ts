@@ -2,7 +2,7 @@ import bingoAudio from "@/assets/audio/bingo.mp3";
 import resetAudio from "@/assets/audio/reset.mp3";
 import { GameActions } from "@/reducers/gameReducer";
 import { Game, Player } from "@/types";
-import { audioNumbers, dateFormatter, sendNotification } from "@/utils/game";
+import { audioNumbers, dateFormatter } from "@/utils/game";
 import { Dispatch } from "react";
 import { Socket } from "socket.io-client";
 import Swal, { SweetAlertIcon } from "sweetalert2";
@@ -67,12 +67,6 @@ export const gameSocket = (
   socket.on("gameUpdate", (game: Game) => {
     if (!game) return;
     dispatch({ type: "SET_GAME", payload: { game } });
-    if (game.chosenNumbers.length === 1) {
-      // send notification
-      sendNotification("El Juego ha comenzado!", {
-        body: "Se ha sacado la primera balota ¡buena suerte!",
-      }); 
-    }
   });
 
   // listen for a message from the host

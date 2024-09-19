@@ -4,15 +4,12 @@ import BingoTube from "@/components/BingoTube";
 import GameStatus from "@/components/GameStatus";
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
-import {
-  organizeNumbers,
-  requestNotificationPermission
-} from "@/utils/game";
+import { organizeNumbers } from "@/utils/game";
 import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 
 const IndexPage = () => {
-  const { state, dispatch } = useGame();
+  const { state } = useGame();
 
   const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
   // const [notificationPermission, setNotificationPermission] = useState(false);
@@ -45,29 +42,6 @@ const IndexPage = () => {
     });
     state.socket?.emit("bingo!", state.game._id, state.player._id);
   };
-
-  useEffect(() => {
-    const checkPermission = async () => {
-      const permission = await requestNotificationPermission();
-      dispatch({
-        type: "SET_NOTIFICATION_PERMISSION",
-        payload: { permission },
-      });
-    };
-    checkPermission();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // useEffect(() => {
-  //   if (state.game.chosenNumbers.length === 1 && state.notificationPermission) {
-  //     sendNotification("El Juego ha comenzado!", {
-  //       body: "Se ha sacado la primera balota ¡buena suerte!",
-  //       // icon: "/favicon.ico",
-  //     });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [state.game.chosenNumbers]);
 
   useEffect(() => {
     setBingoCard(

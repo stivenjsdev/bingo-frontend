@@ -111,7 +111,7 @@ export const dateFormatter = (date: Date) => {
   }).format(date);
 };
 
-// browser API
+// browser API Notification
 const areNotificationsSupported = () => "Notification" in window;
 
 export const requestNotificationPermission = async () => {
