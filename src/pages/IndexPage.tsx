@@ -6,8 +6,7 @@ import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
 import {
   organizeNumbers,
-  requestNotificationPermission,
-  sendNotification,
+  requestNotificationPermission
 } from "@/utils/game";
 import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
@@ -60,15 +59,15 @@ const IndexPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (state.game.chosenNumbers.length === 1 && state.notificationPermission) {
-      sendNotification("El Juego ha comenzado!", {
-        body: "Se ha sacado la primera balota ¡buena suerte!",
-        // icon: "/favicon.ico",
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.game.chosenNumbers]);
+  // useEffect(() => {
+  //   if (state.game.chosenNumbers.length === 1 && state.notificationPermission) {
+  //     sendNotification("El Juego ha comenzado!", {
+  //       body: "Se ha sacado la primera balota ¡buena suerte!",
+  //       // icon: "/favicon.ico",
+  //     });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [state.game.chosenNumbers]);
 
   useEffect(() => {
     setBingoCard(
