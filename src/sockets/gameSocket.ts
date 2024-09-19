@@ -34,11 +34,8 @@ export const gameSocket = (
   });
 
   // listen for ball taken out event
-  socket.on("ballTakenOut", (ball: number, errorMessage: string) => {
-    if (!ball) {
-      console.log(errorMessage);
-      return;
-    }
+  socket.on("ballTakenOut", (ball: number) => {
+    if (!ball) return;
     dispatch({ type: "TAKE_OUT_BALL", payload: { ball } });
     // play audio for the ball drawn
     if (audioNumbers[ball]) audioNumbers[ball]();
@@ -60,6 +57,7 @@ export const gameSocket = (
   // listen for card changed event
   socket.on("cardChanged", (newPlayer: Player) => {
     if (!newPlayer) return;
+    // validate if the player is the same
     if (newPlayer._id === player._id) {
       dispatch({ type: "SAVE_PLAYER", payload: { newPlayer } });
     }

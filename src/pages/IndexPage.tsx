@@ -1,23 +1,40 @@
+import reloadIcon from "@/assets/reload.svg";
 import Ball from "@/components/Ball";
 import BingoTube from "@/components/BingoTube";
 import GameStatus from "@/components/GameStatus";
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
-import { organizeNumbers } from "@/utils/game";
+import {
+  organizeNumbers,
+  requestNotificationPermission,
+  sendNotification,
+} from "@/utils/game";
 import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 
 const IndexPage = () => {
-  const { state } = useGame();
+  const { state, dispatch } = useGame();
 
   const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
+  // const [notificationPermission, setNotificationPermission] = useState(false);
 
   const organizedNumbers = useMemo(() => organizeNumbers(), []);
+
+  const hasGameStarted = useMemo(
+    () => state.game.chosenNumbers.length > 0,
+    [state.game.chosenNumbers]
+  );
 
   const handleNumberClick = (colIndex: number, rowIndex: number) => {
     const newCard = [...bingoCard];
     newCard[colIndex][rowIndex].marked = !newCard[colIndex][rowIndex].marked;
     setBingoCard(newCard);
+  };
+
+  const handleChangeCard = () => {
+    console.log("changeCard");
+    if (!state.socket) return;
+    state.socket.emit("changeCard", state.player._id, state.game._id);
   };
 
   const handleBINGO = () => {
@@ -27,8 +44,31 @@ const IndexPage = () => {
       icon: "info",
       confirmButtonText: "vale",
     });
-    state.socket?.emit("bingo!", state.player.game?._id, state.player._id);
+    state.socket?.emit("bingo!", state.game._id, state.player._id);
   };
+
+  useEffect(() => {
+    const checkPermission = async () => {
+      const permission = await requestNotificationPermission();
+      dispatch({
+        type: "SET_NOTIFICATION_PERMISSION",
+        payload: { permission },
+      });
+    };
+    checkPermission();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (state.game.chosenNumbers.length === 1 && state.notificationPermission) {
+      sendNotification("El Juego ha comenzado!", {
+        body: "Se ha sacado la primera balota ¡buena suerte!",
+        // icon: "/favicon.ico",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.game.chosenNumbers]);
 
   useEffect(() => {
     setBingoCard(
@@ -51,7 +91,7 @@ const IndexPage = () => {
   }, [state.game.chosenNumbers]);
 
   return (
-    <div className="min-h-full flex flex-col items-center justify-center bg-gray-100 px-4 pt-1 sm:pt-2 pb-4">
+    <div className="min-h-full flex flex-col items-center justify-center gap-1 bg-gray-100 px-4 pt-1 sm:pt-2 pb-4">
       {/* Game State */}
       {state.game.winner && <GameStatus />}
 
@@ -62,18 +102,29 @@ const IndexPage = () => {
             ? state.lastChosenBall
             : state.game.chosenNumbers[state.game.chosenNumbers.length - 1]
         }
-        className="mb-1"
       />
 
       {/* Ultimas Balotas jugadas */}
       <BingoTube />
 
       {/* Cartón de Bingo */}
-      <div className="w-full max-w-md mx-auto border border-gray-50 shadow-lg p-4 space-y-3">
+      <div className="relative w-full max-w-md mx-auto border border-gray-50 shadow-lg p-4 pt-1 space-y-2">
+        {/* Botón de cambiar cartón */}
+        {!hasGameStarted && (
+          <button
+            className="absolute -top-6 right-1 transform active:scale-75 transition duration-150"
+            onClick={handleChangeCard}
+          >
+            <img src={reloadIcon} alt="change icon" className="w-12" />
+          </button>
+        )}
+
         <div>
           <h1 className="text-center">
             Cartón de Bingo de{" "}
-            <span className="font-bold capitalize font-oswald">{state.player.name}</span>
+            <span className="font-bold capitalize font-oswald">
+              {state.player.name}
+            </span>
           </h1>
         </div>
 

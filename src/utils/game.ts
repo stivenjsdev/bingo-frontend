@@ -111,6 +111,31 @@ export const dateFormatter = (date: Date) => {
   }).format(date);
 };
 
+// browser API
+const areNotificationsSupported = () => "Notification" in window;
+
+export const requestNotificationPermission = async () => {
+  if (!areNotificationsSupported()) {
+    console.log("this browser does not support notifications");
+    return false;
+  }
+  const permission = await Notification.requestPermission();
+  return permission === "granted";
+};
+
+export const sendNotification = (title: string, options?: NotificationOptions) => {
+  if (!areNotificationsSupported()) {
+    console.log("this browser does not support notifications");
+    return;
+  }
+  if (Notification.permission !== "granted") {
+    console.log("notifications permission not granted");
+    return;
+  }
+
+  new Notification(title, options);
+};
+
 export function capitalizeWords(str: string) {
   return str
     .split(" ")

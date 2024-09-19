@@ -23,6 +23,10 @@ export type GameActions =
     }
   | {
       type: "GAME_RESTARTED";
+    }
+  | {
+      type: "SET_NOTIFICATION_PERMISSION";
+      payload: { permission: boolean };
     };
 
 export type GameState = {
@@ -30,6 +34,7 @@ export type GameState = {
   lastChosenBall: number;
   game: Game;
   socket: Socket | null;
+  notificationPermission: boolean;
 };
 
 export const initialState: GameState = {
@@ -57,6 +62,7 @@ export const initialState: GameState = {
     winner: null,
   },
   socket: null,
+  notificationPermission: false,
 };
 
 export const gameReducer = (
@@ -94,6 +100,12 @@ export const gameReducer = (
     return {
       ...state,
       lastChosenBall: 0,
+    };
+  }
+  if (action.type === "SET_NOTIFICATION_PERMISSION") {
+    return {
+      ...state,
+      notificationPermission: action.payload.permission,
     };
   }
 
