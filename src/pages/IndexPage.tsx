@@ -124,12 +124,10 @@ const IndexPage = () => {
               {bingoCard[letter]?.map((number, rowIndex) => (
                 <div
                   key={`${letter}-${rowIndex}`}
-                  className={`aspect-square flex items-center justify-center border border-gray-300 text-lg font-bold cursor-pointer
+                  className={`aspect-square flex items-center justify-center p-1 border border-gray-300 text-lg font-bold cursor-pointer
                     ${
                       colIndex === 2 && rowIndex === 2
                         ? "bg-gray-300 text-white"
-                        : number.marked
-                        ? "bg-indigo-300 text-white"
                         : "bg-white text-black"
                     }
                     ${rowIndex === 4 ? "rounded-b-md" : ""}`}
@@ -139,7 +137,9 @@ const IndexPage = () => {
                       : null
                   }
                 >
-                  {letter === "N" && rowIndex === 2 ? "FREE" : number.value}
+                  <div className={`w-full h-full flex items-center justify-center ${number.marked ? "rounded-full bg-red-300 bg-opacity-45" : ""}`}>
+                    {letter === "N" && rowIndex === 2 ? "FREE" : number.value}
+                  </div>
                 </div>
               ))}
             </div>
