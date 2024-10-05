@@ -41,7 +41,13 @@ export const initialState: GameState = {
   player: {
     _id: "",
     name: "",
-    bingoCard: [],
+    bingoCard: {
+      B: [],
+      I: [],
+      N: [],
+      G: [],
+      O: [],
+    },
     game: null, // sacamos la info del game en su propio estado
     active: false,
     online: false,
@@ -53,8 +59,8 @@ export const initialState: GameState = {
     gameName: "",
     date: new Date(),
     players: [],
-    unsortedNumbers: [],
-    chosenNumbers: [],
+    balls: [],
+    drawnBalls: [],
     userAdmin: "",
     active: false,
     createdAt: new Date(),

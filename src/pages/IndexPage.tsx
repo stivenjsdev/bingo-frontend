@@ -2,6 +2,7 @@ import reloadIcon from "@/assets/reload.svg";
 import Ball from "@/components/Ball";
 import BingoTube from "@/components/BingoTube";
 import GameStatus from "@/components/GameStatus";
+import GameType from "@/components/GameType";
 import { useGame } from "@/hooks/useGame";
 import type { BingoNumber } from "@/types";
 import { organizeNumbers } from "@/utils/game";
@@ -11,19 +12,25 @@ import Swal from "sweetalert2";
 const IndexPage = () => {
   const { state } = useGame();
 
-  const [bingoCard, setBingoCard] = useState<BingoNumber[][]>([]);
+  const [bingoCard, setBingoCard] = useState<Record<string, BingoNumber[]>>({
+    B: [],
+    I: [],
+    N: [],
+    G: [],
+    O: [],
+  });
   // const [notificationPermission, setNotificationPermission] = useState(false);
 
   const organizedNumbers = useMemo(() => organizeNumbers(), []);
 
   const hasGameStarted = useMemo(
-    () => state.game.chosenNumbers.length > 0,
-    [state.game.chosenNumbers]
+    () => state.game.drawnBalls.length > 0,
+    [state.game.drawnBalls]
   );
 
-  const handleNumberClick = (colIndex: number, rowIndex: number) => {
-    const newCard = [...bingoCard];
-    newCard[colIndex][rowIndex].marked = !newCard[colIndex][rowIndex].marked;
+  const handleNumberClick = (letter: string, rowIndex: number) => {
+    const newCard = { ...bingoCard };
+    newCard[letter][rowIndex].marked = !newCard[letter][rowIndex].marked;
     setBingoCard(newCard);
   };
 
@@ -44,27 +51,34 @@ const IndexPage = () => {
   };
 
   useEffect(() => {
-    setBingoCard(
-      state.player.bingoCard.map((column) =>
-        column.map((number) => ({ value: number, marked: false }))
-      )
+    const updatedBingoCard = Object.fromEntries(
+      Object.entries(state.player.bingoCard).map(([letter, numbers]) => [
+        letter,
+        numbers.map((number) => ({ value: number, marked: false })),
+      ])
     );
+    setBingoCard(updatedBingoCard);
   }, [state.player.bingoCard]);
 
   useEffect(() => {
-    if (state.game.chosenNumbers.length === 0) {
-      setBingoCard(
-        state.player.bingoCard.map((column) =>
-          column.map((number) => ({ value: number, marked: false }))
-        )
+    if (state.game.drawnBalls.length === 0) {
+      const resetBingoCard = Object.fromEntries(
+        Object.entries(state.player.bingoCard).map(([letter, numbers]) => [
+          letter,
+          numbers.map((number) => ({ value: number, marked: false })),
+        ])
       );
+      setBingoCard(resetBingoCard);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.game.chosenNumbers]);
+  }, [state.game.drawnBalls]);
 
   return (
     <div className="min-h-full flex flex-col items-center justify-center gap-1 bg-gray-100 px-4 pt-1 sm:pt-2 pb-4">
+      {/* Game Type */}
+      <GameType />
+
       {/* Game State */}
       {state.game.winner && <GameStatus />}
 
@@ -73,7 +87,7 @@ const IndexPage = () => {
         number={
           state.lastChosenBall
             ? state.lastChosenBall
-            : state.game.chosenNumbers[state.game.chosenNumbers.length - 1]
+            : state.game.drawnBalls[state.game.drawnBalls.length - 1]
         }
       />
 
@@ -107,9 +121,9 @@ const IndexPage = () => {
               <div className="flex items-center justify-center bg-indigo-600 text-white font-bold font-oswald p-4 rounded-t-md text-xl">
                 {letter}
               </div>
-              {bingoCard[colIndex]?.map((number, rowIndex) => (
+              {bingoCard[letter]?.map((number, rowIndex) => (
                 <div
-                  key={`${colIndex}-${rowIndex}`}
+                  key={`${letter}-${rowIndex}`}
                   className={`aspect-square flex items-center justify-center border border-gray-300 text-lg font-bold cursor-pointer
                     ${
                       colIndex === 2 && rowIndex === 2
@@ -120,12 +134,12 @@ const IndexPage = () => {
                     }
                     ${rowIndex === 4 ? "rounded-b-md" : ""}`}
                   onClick={() =>
-                    colIndex !== 2 || rowIndex !== 2
-                      ? handleNumberClick(colIndex, rowIndex)
+                    letter !== "N" || rowIndex !== 2
+                      ? handleNumberClick(letter, rowIndex)
                       : null
                   }
                 >
-                  {colIndex === 2 && rowIndex === 2 ? "FREE" : number.value}
+                  {letter === "N" && rowIndex === 2 ? "FREE" : number.value}
                 </div>
               ))}
             </div>
@@ -160,7 +174,7 @@ const IndexPage = () => {
                     key={num}
                     className={`w-10 h-10 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-lg font-semibold
                     ${
-                      state.game.chosenNumbers.includes(num)
+                      state.game.drawnBalls.includes(num)
                         ? "bg-white text-indigo-900"
                         : "bg-indigo-800 text-indigo-200"
                     }`}

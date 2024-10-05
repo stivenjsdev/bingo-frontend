@@ -4,7 +4,7 @@ import Ball from "./Ball";
 export default function BingoTube() {
   const {
     state: {
-      game: { chosenNumbers },
+      game: { drawnBalls },
     },
   } = useGame();
   return (
@@ -26,7 +26,7 @@ export default function BingoTube() {
 
           {/* Contenedor de balotas */}
           <div className="relative flex flex-row items-center justify-center gap-2 py-1">
-            {chosenNumbers
+            {drawnBalls
               .slice(-4, -1)
               .reverse()
               .map((number) => (
